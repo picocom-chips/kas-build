@@ -1,0 +1,63 @@
+header:
+  version: 8
+
+distro: poky
+
+machine: pc805
+
+target:
+  - picocom-image
+
+repos:
+  meta-picocom:
+    url: git@gitlab.com:attinamirror/pico/meta-picocom.git
+    commit: 57a0b32297a663d8bd9a01a4b42605ee887de3c5
+
+  meta-riscv:
+    url: https://github.com/riscv/meta-riscv
+    commit: 0bd22610f8f4f0b17efcfba08b29f58fb3e6d3f0 # kirkstone
+
+  poky:
+    url: https://git.yoctoproject.org/git/poky
+    commit: ef5214f584765810e94a6f61585ccbcd9b909502 # kirkstone
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    commit: 9c5541f7e18a1fac3b8dea71e1ebb8398d58e6ff # kirkstone
+    layers:
+      meta-oe:
+      meta-networking:
+      meta-python:
+
+bblayers_conf_header:
+  standard: |
+    POKY_BBLAYERS_CONF_VERSION = "2"
+    BBPATH = "${TOPDIR}"
+    BBFILES ?= ""
+local_conf_header:
+  standard: |
+    CONF_VERSION = "1"
+    PACKAGE_CLASSES = "package_rpm"
+    SDKMACHINE = "x86_64"
+    # Use 'haveged' instead 'rng-tools' due to 'SIGSEGV' error during start 'rngd'
+    PACKAGE_EXCLUDE:append = " rng-tools"
+    IMAGE_INSTALL:append = " haveged"
+    IMAGE_FEATURES += " \
+        ssh-server-dropbear \
+        debug-tweaks \
+        package-management \
+    "
+  diskmon: |
+    BB_DISKMON_DIRS = "\
+        STOPTASKS,${TMPDIR},1G,100K \
+        STOPTASKS,${DL_DIR},1G,100K \
+        STOPTASKS,${SSTATE_DIR},1G,100K \
+        STOPTASKS,/tmp,100M,100K \
+        HALT,${TMPDIR},100M,1K \
+        HALT,${DL_DIR},100M,1K \
+        HALT,${SSTATE_DIR},100M,1K \
+        HALT,/tmp,10M,1K"
