@@ -125,10 +125,25 @@ Once the build is finished without error, you can get the installable SDK from `
 ```
 ./poky-glibc-x86_64-picocom-image-riscv32-pc805-toolchain-4.0.13.sh
 ```
-### Use The SDK
+### Use the SDK
 Run the following command, the cross compiler will be add to the system PATH, and you can use it directly from shell.
 ```
 . /opt/poky/4.0.13/environment-setup-riscv32-poky-linux
+```
+
+### Use the SDK to compile the kernel module
+*Notes: The following command only need run once after you install the SDK*
+```
+cd -P /opt/poky/4.0.13/sysroots/riscv32-poky-linux/usr/src/kernel
+. /opt/poky/4.0.13/environment-setup-riscv32-poky-linux
+make scripts
+make prepare
+```
+Then cd to your kernel module folder to do do the compile. The kernel build directory is located at `/opt/poky/4.0.13/sysroots/riscv32-poky-linux/usr/src/kernel`. Don't forget to make the relevant change in your kernel module Makefile.
+```
+cd <kernel modoule folder>
+. /opt/poky/4.0.13/environment-setup-riscv32-poky-linux
+make
 ```
 ### Check the GCC version
 ```
