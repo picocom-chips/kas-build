@@ -11,7 +11,7 @@ target:
 repos:
   meta-picocom:
     url: https://github.com/picocom-chips/meta-picocom.git
-    commit: c974ecc647623e211423c8ccb5a8100a1c5122bb # v1.0.4
+    commit: 643f7f25efbb4b107db8b9c67e16fe8118fdb10b # v1.0.5
     branch: rel/pc805/linux-v5.4.147
 
   meta-riscv:
