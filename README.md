@@ -159,18 +159,22 @@ flashcp -v picocom-image-pc805.ubi /dev/mtd5
 
 When you power on the EVB board with images flashed, you will be able to see the following printing on DEBUG UART.
 ```log
-▒CCCC
-FSBL 82358a51e218 (Wed Oct 25 14:11:10 CST 2023)
+CCCC
+FSBL b7b84d3945ed (Mon Nov 13 10:23:01 CST 2023)
+dl-110
 MID 0xc8 (0x45 0x0 0x0)
 Model GD5F4GQ6REYIG
 Spinand GigaDevice
+k1n
+clrjp>
 
-U-Boot SPL 2020.10 (Oct 26 2023 - 04:12:32 +0000)
+U-Boot SPL 2020.10 (Nov 22 2023 - 07:53:56 +0000)
+Boot select detect: register val = 0xffe07fff
 Trying to boot from NAND
 Loading U-Boot from 0x00100000 (size 0x000c0000) to 0x90000000
 call nand_deselect
 
-U-Boot 2020.10 (Oct 26 2023 - 04:12:32 +0000)
+U-Boot 2020.10 (Nov 20 2023 - 07:03:49 +0000)
 
 DRAM:  512 MiB
 NAND:  512 MiB
@@ -189,13 +193,13 @@ Reading 6291456 byte(s) (3072 page(s)) at offset 0x00000000
      Type:         Kernel Image
      Compression:  gzip compressed
      Data Start:   0x91000110
-     Data Size:    2703915 Bytes = 2.6 MiB
+     Data Size:    3052951 Bytes = 2.9 MiB
      Architecture: RISC-V
      OS:           Linux
      Load Address: 0x80400000
      Entry Point:  0x80400000
      Hash algo:    sha256
-     Hash value:   cc4b5e892e560f8852a05ad02773a7f7eed07a90c593357883ce950b8d767bac
+     Hash value:   5f32150f0718bfe7e024496d4f89a0c0b5953040e07447d82dce615647ddc5db
    Verifying Hash Integrity ... sha256+ OK
 ## Loading fdt from FIT Image at 91000000 ...
    Using 'conf-picocom_pc805.dtb' configuration
@@ -203,17 +207,17 @@ Reading 6291456 byte(s) (3072 page(s)) at offset 0x00000000
      Description:  Flattened Device Tree blob
      Type:         Flat Device Tree
      Compression:  uncompressed
-     Data Start:   0x91294450
-     Data Size:    4612 Bytes = 4.5 KiB
+     Data Start:   0x912e97bc
+     Data Size:    8596 Bytes = 8.4 KiB
      Architecture: RISC-V
      Load Address: 0x82200000
      Hash algo:    sha256
-     Hash value:   90d28234ea47c9405b5e7a6bf1293b6b6ec5a69218920d2a2a270b919793eb27
+     Hash value:   a8e5415afdb695b781573ae02fd9d6854fdc37f58127b915d72c93a558d625a3
    Verifying Hash Integrity ... sha256+ OK
-   Loading fdt from 0x91294450 to 0x82200000
+   Loading fdt from 0x912e97bc to 0x82200000
    Booting using the fdt blob at 0x82200000
    Uncompressing Kernel Image
-   Using Device Tree in place at 82200000, end 82204203
+   Using Device Tree in place at 82200000, end 82205193
 
 Starting kernel ...
 
@@ -264,7 +268,7 @@ Boot HART MHPM Count      : 4
 Boot HART MIDELEG         : 0x00000222
 Boot HART MEDELEG         : 0x0000b109
 [    0.000000] OF: fdt: Ignoring memory range 0x80000000 - 0x80400000
-[    0.000000] Linux version 5.4.147-pc805 (oe-user@oe-host) (gcc version 11.4.0 (GCC)) #1 Mon Oct 9 03:3
+[    0.000000] Linux version 5.4.147-pc805 (oe-user@oe-host) (gcc version 11.4.0 (GCC)) #1 Sat Jan 6 12:20:43 UTC 2024
 [    0.000000] earlycon: sbi0 at I/O port 0x0 (options '')
 [    0.000000] printk: bootconsole [sbi0] enabled
 [    0.000000] initrd not found or empty - disabling initrd
@@ -289,133 +293,160 @@ Boot HART MEDELEG         : 0x0000b109
 [    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768
 [    0.000000] pcpu-alloc: [0] 0
 [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 88072
-[    0.000000] Kernel command line: console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock5 eth6
+[    0.000000] Kernel command line: console=ttyS0,115200 earlycon=sbi loglevel=8 rootfstype=ubifs ubi.mtd=rootfs root=ubi0:pc805-rootfs
 [    0.000000] Dentry cache hash table entries: 65536 (order: 6, 262144 bytes, linear)
 [    0.000000] Inode-cache hash table entries: 32768 (order: 5, 131072 bytes, linear)
 [    0.000000] Sorting __ex_table...
 [    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
-[    0.000000] Memory: 314316K/356352K available (3267K kernel code, 185K rwdata, 938K rodata, 132K init)
+[    0.000000] Memory: 313692K/356352K available (3743K kernel code, 204K rwdata, 1044K rodata, 140K init, 227K bss, 9892K reserved, 32768K cma-reserved)
 [    0.000000] NR_IRQS: 72, nr_irqs: 72, preallocated irqs: 0
 [    0.000000] plic: mapped 146 interrupts with 1 handlers for 2 contexts.
 [    0.000000] riscv_timer_init_dt: Registering clocksource cpuid [0] hartid [0]
-[    0.000000] clocksource: riscv_clocksource: mask: 0xffffffffffffffff max_cycles: 0xe2b8193d7, max_idls
+[    0.000000] clocksource: riscv_clocksource: mask: 0xffffffffffffffff max_cycles: 0xe2b8193d7, max_idle_ns: 881590406657 ns
 [    0.000012] sched_clock: 64 bits at 30MHz, resolution 32ns, wraps every 4398046511090ns
-[    0.008511] Console: colour dummy device 80x25
-[    0.012973] Calibrating delay loop (skipped), value calculated using timer frequency.. 61.44 BogoMIPS)
-[    0.023158] pid_max: default: 32768 minimum: 301
-[    0.028112] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
-[    0.035384] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
-[    0.047966] devtmpfs: initialized
-[    0.053824] random: get_random_u32 called from bucket_table_alloc.isra.0+0x118/0x132 with crng_init=0
-[    0.109235] DMA-API: preallocated 65586 debug entries
-[    0.114219] DMA-API: debugging enabled by kernel config
-[    0.119488] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275s
-[    0.129239] futex hash table entries: 256 (order: -1, 3072 bytes, linear)
-[    0.139749] NET: Registered protocol family 16
-[    0.161086] pps_core: LinuxPPS API ver. 1 registered
-[    0.166008] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
-[    0.175194] PTP clock support registered
-[    0.180408] clocksource: Switched to clocksource riscv_clocksource
-[    0.205670] NET: Registered protocol family 2
-[    0.210780] IP idents hash table entries: 8192 (order: 4, 65536 bytes, linear)
-[    0.219641] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
-[    0.227985] TCP established hash table entries: 4096 (order: 2, 16384 bytes, linear)
-[    0.235834] TCP bind hash table entries: 4096 (order: 2, 16384 bytes, linear)
-[    0.243033] TCP: Hash tables configured (established 4096 bind 4096)
-[    0.249751] UDP hash table entries: 256 (order: 0, 4096 bytes, linear)
-[    0.256282] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes, linear)
-[    0.263750] NET: Registered protocol family 1
-[    0.270181] workingset: timestamp_bits=30 max_order=17 bucket_order=0
-[    0.338265] Serial: 8250/16550 driver, 3 ports, IRQ sharing disabled
-[    0.346642] printk: console [ttyS0] disabled
-[    0.350945] 8212000.uart: ttyS0 at MMIO 0x8212000 (irq = 70, base_baud = 20400000) is a 16550A
-[    0.359550] printk: console [ttyS0] enabled
-[    0.359550] printk: console [ttyS0] enabled
-[    0.367925] printk: bootconsole [sbi0] disabled
-[    0.367925] printk: bootconsole [sbi0] disabled
-[    0.378972] dw_spi_mmio 8204000.spi: Detected FIFO size: 22 bytes
-[    0.385638] dw_spi_mmio 8204000.spi: registered master spi0
-[    0.391682] spi spi0.0: setup mode 0, 8 bits/w, 10000000 Hz max --> 0
-[    0.398996] dw_spi_mmio 8204000.spi: registered child spi0.0
-[    0.405136] dw_spi_mmio 8206000.spi: Detected FIFO size: 22 bytes
-[    0.411762] dw_spi_mmio 8206000.spi: registered master spi1
-[    0.417766] spi spi1.0: setup mode 0, 8 bits/w, 10000000 Hz max --> 0
-[    0.425063] dw_spi_mmio 8206000.spi: registered child spi1.0
-[    0.431181] dw_spi_mmio 820c000.spi: Detected FIFO size: 50 bytes
-[    0.437807] dw_spi_mmio 820c000.spi: registered master spi2
-[    0.443798] spi spi2.0: setup mode 0, 8 bits/w, 40000000 Hz max --> 0
-[    0.450840] spi-nand spi2.0: GigaDevice SPI NAND was found.
-[    0.456504] spi-nand spi2.0: 512 MiB, block size: 128 KiB, page size: 2048, OOB size: 128
-[    0.465761] 6 fixed-partitions partitions found on MTD device spi2.0
-[    0.472223] Creating 6 MTD partitions on "spi2.0":
-[    0.477092] 0x000000000000-0x000000080000 : "spl"
-[    0.485004] 0x000000080000-0x000000100000 : "opensbi"
-[    0.493147] 0x000000100000-0x0000001c0000 : "uboot"
-[    0.501232] 0x0000001c0000-0x000000200000 : "ubootenv"
-[    0.509230] 0x000000200000-0x000000800000 : "kernel"
-[    0.521288] 0x000000800000-0x000020000000 : "rootfs"
-[    0.895752] dw_spi_mmio 820c000.spi: registered child spi2.0
-[    0.902034] libphy: Fixed MDIO Bus: probed
-[    0.906926] dwc-eth-dwmac 8480000.ethernet: PTP uses main clock
-[    0.912948] dwc-eth-dwmac 8480000.ethernet: no reset control found
-[    0.919785] dwc-eth-dwmac 8480000.ethernet: User ID: 0x11, Synopsys ID: 0x52
-[    0.926933] dwc-eth-dwmac 8480000.ethernet:  DWMAC4/5
-[    0.932050] dwc-eth-dwmac 8480000.ethernet: DMA HW capability register supported
-[    0.939505] dwc-eth-dwmac 8480000.ethernet: RX Checksum Offload Engine supported
-[    0.946955] dwc-eth-dwmac 8480000.ethernet: Wake-Up On Lan supported
-[    0.953367] dwc-eth-dwmac 8480000.ethernet: Enable RX Mitigation via HW Watchdog Timer
-[    0.961353] dwc-eth-dwmac 8480000.ethernet: device MAC address a6:b7:62:e3:73:ee
-[    0.969080] libphy: stmmac: probed
-[    0.978616] NET: Registered protocol family 17
-[    0.983196] NET: Registered protocol family 15
-[    0.987822] Bridge firewalling registered
-[    0.992312] l2tp_core: L2TP core driver, V2.0
-[    1.001743] DCCP: Activated CCID 2 (TCP-like)
-[    1.006189] DCCP: Activated CCID 3 (TCP-Friendly Rate Control)
-[    1.012339] sctp: Hash tables configured (bind 1024/1024)
-[    1.020010] ttyS0 - failed to request DMA
-[    1.075100] EXT4-fs (mtdblock5): INFO: recovery required on readonly filesystem
-[    1.082500] EXT4-fs (mtdblock5): write access will be enabled during recovery
-[    1.905145] EXT4-fs (mtdblock5): recovery complete
-[    2.134901] EXT4-fs (mtdblock5): mounted filesystem with ordered data mode. Opts: (null)
-[    2.143180] VFS: Mounted root (ext4 filesystem) readonly on device 31:5.
-[    2.151624] devtmpfs: mounted
-[    2.155776] Freeing unused kernel memory: 132K
-[    2.160295] This architecture does not have kernel memory protection.
-[    2.166787] Run /sbin/init as init process
+[    0.008524] Console: colour dummy device 80x25
+[    0.012982] Calibrating delay loop (skipped), value calculated using timer frequency.. 61.44 BogoMIPS (lpj=30720)
+[    0.023169] pid_max: default: 32768 minimum: 301
+[    0.028114] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+[    0.035389] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+[    0.048635] devtmpfs: initialized
+[    0.055796] random: get_random_u32 called from bucket_table_alloc.isra.0+0x124/0x13e with crng_init=0
+[    0.111035] DMA-API: preallocated 65586 debug entries
+[    0.116032] DMA-API: debugging enabled by kernel config
+[    0.121290] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.131044] futex hash table entries: 256 (order: -1, 3072 bytes, linear)
+[    0.141569] NET: Registered protocol family 16
+[    0.171451] pps_core: LinuxPPS API ver. 1 registered
+[    0.176373] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.185556] PTP clock support registered
+[    0.190796] clocksource: Switched to clocksource riscv_clocksource
+[    0.216149] NET: Registered protocol family 2
+[    0.221257] IP idents hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.230112] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.238463] TCP established hash table entries: 4096 (order: 2, 16384 bytes, linear)
+[    0.246305] TCP bind hash table entries: 4096 (order: 2, 16384 bytes, linear)
+[    0.253512] TCP: Hash tables configured (established 4096 bind 4096)
+[    0.260229] UDP hash table entries: 256 (order: 0, 4096 bytes, linear)
+[    0.266762] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes, linear)
+[    0.274209] NET: Registered protocol family 1
+[    0.280724] workingset: timestamp_bits=30 max_order=17 bucket_order=0
+[    0.347512] dw_axi_dmac_platform 10c00000.dmac: DesignWare AXI DMA Controller, 8 channels
+[    0.358556] Serial: 8250/16550 driver, 3 ports, IRQ sharing disabled
+[    0.367041] printk: console [ttyS0] disabled
+[    0.371340] 8212000.uart: ttyS0 at MMIO 0x8212000 (irq = 70, base_baud = 20400000) is a 16550A
+[    0.379945] printk: console [ttyS0] enabled
+[    0.379945] printk: console [ttyS0] enabled
+[    0.388318] printk: bootconsole [sbi0] disabled
+[    0.388318] printk: bootconsole [sbi0] disabled
+[    0.399658] dw_spi_mmio 8204000.spi: Synopsys DWC APB SSI v4.02
+[    0.405691] dw_spi_mmio 8204000.spi: Detected FIFO size: 22 bytes
+[    0.411837] dw_spi_mmio 8204000.spi: Detected 32-bits max data frame size
+[    0.419212] dw_spi_mmio 8204000.spi: registered master spi0
+[    0.425191] spi spi0.0: setup mode 0, 8 bits/w, 10000000 Hz max --> 0
+[    0.432546] dw_spi_mmio 8204000.spi: registered child spi0.0
+[    0.438687] dw_spi_mmio 8206000.spi: Synopsys DWC APB SSI v4.02
+[    0.444706] dw_spi_mmio 8206000.spi: Detected FIFO size: 22 bytes
+[    0.450851] dw_spi_mmio 8206000.spi: Detected 32-bits max data frame size
+[    0.457752] dw_spi_mmio 8206000.spi: DMA init failed
+[    0.463144] dw_spi_mmio 8206000.spi: registered master spi1
+[    0.469136] spi spi1.0: setup mode 0, 8 bits/w, 10000000 Hz max --> 0
+[    0.476461] dw_spi_mmio 8206000.spi: registered child spi1.0
+[    0.482588] dw_spi_mmio 820c000.spi: Synopsys DWC APB SSI v4.02
+[    0.488610] dw_spi_mmio 820c000.spi: Detected FIFO size: 50 bytes
+[    0.494755] dw_spi_mmio 820c000.spi: Detected 32-bits max data frame size
+[    0.502122] dw_spi_mmio 820c000.spi: registered master spi2
+[    0.508144] spi spi2.0: setup mode 0, 8 bits/w, 40000000 Hz max --> 0
+[    0.515200] spi-nand spi2.0: GigaDevice SPI NAND was found.
+[    0.520863] spi-nand spi2.0: 512 MiB, block size: 128 KiB, page size: 2048, OOB size: 128
+[    0.530154] 6 fixed-partitions partitions found on MTD device spi2.0
+[    0.536610] Creating 6 MTD partitions on "spi2.0":
+[    0.541468] 0x000000000000-0x000000080000 : "spl"
+[    0.549311] 0x000000080000-0x000000100000 : "opensbi"
+[    0.557460] 0x000000100000-0x0000001c0000 : "uboot"
+[    0.565629] 0x0000001c0000-0x000000200000 : "ubootenv"
+[    0.573642] 0x000000200000-0x000000800000 : "kernel"
+[    0.585734] 0x000000800000-0x000020000000 : "rootfs"
+[    0.960198] dw_spi_mmio 820c000.spi: registered child spi2.0
+[    0.966642] libphy: Fixed MDIO Bus: probed
+[    0.971515] dwc-eth-dwmac 8480000.ethernet: PTP uses main clock
+[    0.977534] dwc-eth-dwmac 8480000.ethernet: no reset control found
+[    0.984345] dwc-eth-dwmac 8480000.ethernet: User ID: 0x11, Synopsys ID: 0x52
+[    0.991494] dwc-eth-dwmac 8480000.ethernet:  DWMAC4/5
+[    0.996604] dwc-eth-dwmac 8480000.ethernet: DMA HW capability register supported
+[    1.004053] dwc-eth-dwmac 8480000.ethernet: RX Checksum Offload Engine supported
+[    1.011500] dwc-eth-dwmac 8480000.ethernet: Wake-Up On Lan supported
+[    1.017907] dwc-eth-dwmac 8480000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+[    1.025877] dwc-eth-dwmac 8480000.ethernet: device MAC address 82:40:d7:3a:01:53
+[    1.033588] libphy: stmmac: probed
+[    1.041954] NET: Registered protocol family 17
+[    1.046523] NET: Registered protocol family 15
+[    1.051158] Bridge firewalling registered
+[    1.055691] l2tp_core: L2TP core driver, V2.0
+[    1.060139] 8021q: 802.1Q VLAN Support v1.8
+[    1.069663] DCCP: Activated CCID 2 (TCP-like)
+[    1.074110] DCCP: Activated CCID 3 (TCP-Friendly Rate Control)
+[    1.080248] sctp: Hash tables configured (bind 1024/1024)
+[    1.104686] ubi0: attaching mtd5
+[    5.820854] ubi0: scanning is finished
+[    5.854659] ubi0: attached mtd5 (name "rootfs", size 504 MiB)
+[    5.860498] ubi0: PEB size: 131072 bytes (128 KiB), LEB size: 126976 bytes
+[    5.867422] ubi0: min./max. I/O unit sizes: 2048/2048, sub-page size 2048
+[    5.874254] ubi0: VID header offset: 2048 (aligned 2048), data offset: 4096
+[    5.881259] ubi0: good PEBs: 4032, bad PEBs: 0, corrupted PEBs: 0
+[    5.887397] ubi0: user volume: 1, internal volumes: 1, max. volumes count: 128
+[    5.894664] ubi0: max/mean erase counter: 2/1, WL threshold: 4096, image sequence number: 1638215424
+[    5.903839] ubi0: available PEBs: 0, total reserved PEBs: 4032, PEBs reserved for bad PEB handling: 80
+[    5.913775] ubi0: background thread "ubi_bgt0d" started, PID 54
+[    5.920091] ttyS0 - failed to request DMA
+[    5.926352] UBIFS (ubi0:0): Mounting in unauthenticated mode
+[    6.007927] UBIFS (ubi0:0): recovery needed
+[    6.109893] UBIFS (ubi0:0): recovery deferred
+[    6.114525] UBIFS (ubi0:0): UBIFS: mounted UBI device 0, volume 0, name "pc805-rootfs", R/O mode
+[    6.123370] UBIFS (ubi0:0): LEB size: 126976 bytes (124 KiB), min./max. I/O unit sizes: 2048 bytes/2048 bytes
+[    6.133330] UBIFS (ubi0:0): FS size: 499904512 bytes (476 MiB, 3937 LEBs), journal size 9023488 bytes (8 MiB, 72 LEBs)
+[    6.144064] UBIFS (ubi0:0): reserved for root: 0 bytes (0 KiB)
+[    6.149948] UBIFS (ubi0:0): media format: w4/r0 (latest is w5/r0), UUID F7659AD7-2D16-459C-A561-A7CCD922D61F, small LPT model
+[    6.165196] VFS: Mounted root (ubifs filesystem) readonly on device 0:14.
+[    6.175912] devtmpfs: mounted
+[    6.180103] Freeing unused kernel memory: 140K
+[    6.184615] This architecture does not have kernel memory protection.
+[    6.191097] Run /sbin/init as init process
 INIT: version 3.01 booting
 Starting udev
-[    7.401243] udevd[84]: starting version 3.2.10
-[    7.409098] random: udevd: uninitialized urandom read (16 bytes read)
-[    7.419291] random: udevd: uninitialized urandom read (16 bytes read)
-[    7.426024] random: udevd: uninitialized urandom read (16 bytes read)
-[    7.572605] udevd[85]: starting eudev-3.2.10
-[    8.749923] EXT4-fs (mtdblock5): re-mounted. Opts: (null)
+[    7.875052] udevd[87]: starting version 3.2.10
+[    7.905737] random: udevd: uninitialized urandom read (16 bytes read)
+[    7.930890] random: udevd: uninitialized urandom read (16 bytes read)
+[    7.937618] random: udevd: uninitialized urandom read (16 bytes read)
+[    8.064328] udevd[88]: starting eudev-3.2.10
+[    9.080547] UBIFS (ubi0:0): completing deferred recovery
+[    9.223502] UBIFS (ubi0:0): background thread "ubifs_bgt0_0" started, PID 112
+[    9.234304] UBIFS (ubi0:0): deferred recovery completed
 hwclock: can't open '/dev/misc/rtc': No such file or directory
-Fri Mar  9 12:50:34 UTC 2018
+Fri Mar  9 12:34:56 UTC 2018
 hwclock: can't open '/dev/misc/rtc': No such file or directory
-[   10.190986] urandom_read: 1 callbacks suppressed
-[   10.191003] random: dd: uninitialized urandom read (512 bytes read)
+[   10.582417] urandom_read: 1 callbacks suppressed
+[   10.582433] random: dd: uninitialized urandom read (512 bytes read)
 INIT: Entering runlevel: 5
-Configuring network interfaces... [   10.768472] dwc-eth-dwmac 8480000.ethernet eth0: PHY [stmmac-0:01] ]
-[   10.777530] cma: cma_alloc(cma (ptrval), count 2, align 1)
-[   10.784242] cma: cma_alloc(): returned (ptrval)
-[   10.789264] cma: cma_alloc(cma (ptrval), count 2, align 1)
-[   10.794986] cma: cma_alloc(): returned (ptrval)
-[   10.814683] dwmac4: Master AXI performs any burst length
-[   10.820087] dwc-eth-dwmac 8480000.ethernet eth0: No Safety Features support found
-[   10.827646] dwc-eth-dwmac 8480000.ethernet eth0: PTP not supported by HW
-[   10.834440] dwc-eth-dwmac 8480000.ethernet eth0: configuring for phy/rmii link mode
+Configuring network interfaces... [   11.145854] dwc-eth-dwmac 8480000.ethernet eth0: PHY [stmmac-0:01] driver [SMSC LAN8710/LAN8720]
+[   11.154909] cma: cma_alloc(cma (ptrval), count 2, align 1)
+[   11.161603] cma: cma_alloc(): returned (ptrval)
+[   11.166574] cma: cma_alloc(cma (ptrval), count 2, align 1)
+[   11.172262] cma: cma_alloc(): returned (ptrval)
+[   11.192457] dwmac4: Master AXI performs any burst length
+[   11.197859] dwc-eth-dwmac 8480000.ethernet eth0: No Safety Features support found
+[   11.205409] dwc-eth-dwmac 8480000.ethernet eth0: PTP not supported by HW
+[   11.212176] dwc-eth-dwmac 8480000.ethernet eth0: configuring for phy/rmii link mode
+[   11.222179] 8021q: adding VLAN 0 to HW filter on device eth0
 udhcpc: started, v1.35.0
 udhcpc: broadcasting discover
-[   12.930507] dwc-eth-dwmac 8480000.ethernet eth0: Link is Up - 100Mbps/Full - flow control rx/tx
+[   13.314892] dwc-eth-dwmac 8480000.ethernet eth0: Link is Up - 100Mbps/Full - flow control rx/tx
 udhcpc: broadcasting discover
-udhcpc: broadcasting select for 172.16.16.160, server 172.16.16.1
-udhcpc: lease of 172.16.16.160 obtained from 172.16.16.1, lease time 86400
-/etc/udhcpc.d/50default: Adding DNS 172.16.18.18
-/etc/udhcpc.d/50default: Adding DNS 1.2.4.8
+udhcpc: broadcasting select for 10.13.52.27, server 10.70.148.32
+udhcpc: lease of 10.13.52.27 obtained from 10.70.148.32, lease time 691200
+/etc/udhcpc.d/50default: Adding DNS 10.24.148.30
+/etc/udhcpc.d/50default: Adding DNS 10.20.148.30
 done.
-[   20.505501] random: crng init done
+[   16.793887] random: crng init done
 Starting OpenBSD Secure Shell server: sshd
 done.
 hwclock: can't open '/dev/misc/rtc': No such file or directory
@@ -423,7 +454,7 @@ Starting syslogd/klogd: done
 
 Poky (Yocto Project Reference Distro) 4.0.13 pc805 /dev/ttyS0
 
-pc805 login: root
+pc805 login:
 ```
 > [!NOTE]
 > Give some patience when you see the following output at first kernel boot, Because generating ssh key takes some time.
