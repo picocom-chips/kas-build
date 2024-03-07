@@ -1,0 +1,15 @@
+header:
+  version: 14
+  includes:
+    - include/local.yml
+    - include/oe.yml
+
+machine: qemuriscv64
+distro: poky
+target: core-image-base
+
+repos:
+  meta-andes:
+    url: https://github.com/andestech/meta-andes
+    path: layers/meta-andes
+    commit: 3cb786f965bbe0fc7b1f0f6b4c359160a38d6964
