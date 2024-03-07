@@ -1,0 +1,9 @@
+header:
+  version: 8
+  includes:
+    - pc805-base.yml
+
+repos:
+  meta-picocom:
+    commit: 643f7f25efbb4b107db8b9c67e16fe8118fdb10b # v1.0.5
+    branch: rel/pc805/linux-v5.4.147

@@ -1,0 +1,8 @@
+header:
+  version: 8
+  includes:
+    - pc805-base.yml
+
+repos:
+  meta-picocom:
+    branch: master
