@@ -1,0 +1,25 @@
+header:
+  version: 8
+
+repos:
+  meta-rockchip:
+    url: git@github.com:picocom-chips/meta-rockchip.git
+    path: layers/meta-rockchip
+
+  poky:
+    url: https://git.yoctoproject.org/git/poky
+    commit: a818202d85a2fba1be8f43e00391e44a2dbada7e # kirkstone
+    path: layers/poky
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    commit: 730e44900a0a86265bad93a16b5a5ff344a07266 # kirkstone
+    path: layers/meta-openembedded
+    layers:
+      meta-oe:
+      meta-networking:
+      meta-python:

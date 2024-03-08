@@ -1,0 +1,9 @@
+header:
+  version: 8
+  includes:
+    - include/local.yml
+    - include/oe.yml
+
+distro: poky
+target:
+  - core-image-minimal
