@@ -1,5 +1,4 @@
 /build/
-/meta-openembedded/
-/meta-riscv/
-/meta-picocom/
+/layers/
 /poky/
+/tmp/
