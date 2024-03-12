@@ -11,7 +11,7 @@ cd kas-build
 ./kas-container build kas/rockchip/scbxy-rel.yml
 ```
 ### Images created by build system
-TODO: located at `build/latest` folder.
+The final image file located at `build/latest` folder after run the build.
 ```bash
 update.img
 ```
