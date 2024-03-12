@@ -7,4 +7,4 @@ repos:
   meta-rockchip:
     branch: picocom/rk3399-master
 
-machine: pc806scb
+machine: scbxy
