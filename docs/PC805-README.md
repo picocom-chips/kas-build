@@ -22,7 +22,7 @@ git clone https://github.com/picocom-chips/kas-build.git
 ### Build the PC805 Images
 ```
 cd kas-build
-./kas-container build pc805-poky.yml
+./kas-container build kas/picocom/pc805-rel.yml
 ```
 Because the build system needs to clone plenty of repositories over the internet, the build may take several hours.
 ### Images Created by the Build
@@ -502,7 +502,7 @@ saveenv
 ### Enter the Console of Kas Build System
 ```bash
 cd kas-build
-./kas-container shell pc805-poky.yml
+./kas-container shell kas/picocom/pc805-rel.yml
 # build Linux kernel
 bitbake virtual/kernel
 # build u-boot
@@ -511,13 +511,13 @@ bitbake u-boot-picocom
 ### Build Single Component Without Enter Kas Shell
 You also can build a single component without enter kas shell through oneline combined command. For example, you can build Linux kenrel with:
 ```
-./kas-container shell pc805-poky.yml -c "bitbake virtual/kernel"
+./kas-container shell kas/picocom/pc805-rel.yml -c "bitbake virtual/kernel"
 ```
 ## SDK of the PC805 Board
 If you want to use the riscv32 cross compiler out of the docker environment, you can build a SDK of PC805 board and use it in any Linux Distributions.
 ### Build the SDK
 ```
-./kas-container shell pc805-poky.yml -c "bitbake picocom-image -c populate_sdk"
+./kas-container shell kas/picocom/pc805-rel.yml -c "bitbake picocom-image -c populate_sdk"
 ```
 Once the build is finished without error, you can get the installable SDK from `build/tmp/deploy/sdk/poky-glibc-x86_64-picocom-image-riscv32-pc805-toolchain-4.0.13.sh`
 ### Install the SDK
