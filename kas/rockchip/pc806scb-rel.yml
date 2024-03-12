@@ -1,0 +1,11 @@
+header:
+  version: 8
+  includes:
+    - poky-base.yml
+
+repos:
+  meta-rockchip:
+    branch: picocom/rk3399-master
+    commit: a97c1e9931a267a102aac941ee6d2f6fdb26ad2a
+
+machine: pc806scb
