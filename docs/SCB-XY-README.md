@@ -21,6 +21,8 @@ update.img
 ```
 ## Flash
 Currently, scbxy can boot from SD card. You can craete a bootable SD card by tools `SDDiskTool` which was released in RK3399 SDK package.
+![img_v3_028h_575234b7-f43c-4d0f-a4b5-ed122a8e302g](https://github.com/picocom-chips/kas-build/assets/149779491/3fd1e1f3-b4c6-4151-8bba-f1eb7268960a)
+
 
 ## Customization
 ### Enable PREEMPT RT kernel
