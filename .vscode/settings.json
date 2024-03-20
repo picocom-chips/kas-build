@@ -1,0 +1,54 @@
+{
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/layers/poky/bitbake/lib",
+        "${workspaceFolder}/layers/poky/meta/lib"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/layers/poky/bitbake/lib",
+        "${workspaceFolder}/layers/poky/meta/lib"
+    ],
+    "files.associations": {
+        "compare": "cpp",
+        "cstdint": "cpp"
+    },
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "gitlens.codeLens.symbolScopes": [
+            "!Module"
+        ],
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": "off",
+        "files.trimTrailingWhitespace": false
+    },
+    "[shellscript]": {
+        "files.eol": "\n",
+        "files.trimTrailingWhitespace": false
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "build/cache": true,
+        "build/downloads": true,
+        "build/sstate-cache": true,
+        "build/tmp/buildstats": true,
+        "build/tmp/cache": true,
+        "build/tmp/hosttools": true,
+        "build/tmp/pkgdata": true,
+        "build/tmp/log": true,
+        "build/tmp/sstate-control": true,
+        "build/tmp/stamps": true,
+        "build/tmp/sysroots": true,
+        "build/tmp/sysroots-components": true,
+        "build/tmp/sysroots-uninative": true,
+        "build/tmp/work": true
+    },
+    "bitbake.pathToBitbakeFolder": "${workspaceFolder}/layers/poky/bitbake",
+    "bitbake.commandWrapper": "",
+    "bitbake.pathToEnvScript": "${workspaceFolder}/layers/poky/oe-init-build-env",
+    "task.saveBeforeRun": "always",
+    "bitbake.sdkImage": "core-image-minimal"
+}
