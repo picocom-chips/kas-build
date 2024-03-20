@@ -1,0 +1,14 @@
+header:
+  version: 1
+  includes:
+    - include/local.yml
+    - include/oe.yml
+
+distro: poky
+target: core-image-base
+
+repos:
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale
+    path: layers/meta-freescale
+    branch: kirkstone
