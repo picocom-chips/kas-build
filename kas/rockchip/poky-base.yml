@@ -4,6 +4,12 @@ header:
     - include/local.yml
     - include/oe.yml
 
+local_conf_header:
+  standard: |
+    IMAGE_INSTALL:append = " haveged e2fsprogs-resize2fs kernel-modules \
+        pciutils libpcap python3 \
+    "
+
 distro: poky
 target:
   - core-image-minimal
