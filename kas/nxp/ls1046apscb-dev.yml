@@ -6,6 +6,8 @@ header:
 local_conf_header:
   default: |
     PREFERRED_VERSION_linux-libc-headers = "5.16"
+    IMAGE_INSTALL:append = " cryptodev-linux cryptodev-module \
+    "
 
 machine: ls1046apscb
 
