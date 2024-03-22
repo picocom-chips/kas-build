@@ -12,6 +12,3 @@ repos:
     url: https://github.com/Freescale/meta-freescale
     path: layers/meta-freescale
     branch: kirkstone
-
-  meta-pico:
-    path: layers/meta-pico

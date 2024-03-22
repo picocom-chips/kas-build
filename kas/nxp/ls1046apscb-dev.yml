@@ -8,3 +8,9 @@ local_conf_header:
     PREFERRED_VERSION_linux-libc-headers = "5.16"
 
 machine: ls1046apscb
+
+repos:
+  meta-pico:
+    url: https://github.com/picocom-chips/meta-pico.git
+    branch: master
+    path: layers/meta-pico
