@@ -8,20 +8,18 @@ bblayers_conf_header:
     BBFILES ?= ""
 
 local_conf_header:
-  standard: |
+  default: |
     CONF_VERSION = "2"
     PACKAGE_CLASSES = "package_deb"
     SDKMACHINE = "x86_64"
-    # Use 'haveged' instead 'rng-tools' due to 'SIGSEGV' error during start 'rngd'
-    PACKAGE_EXCLUDE:append = " rng-tools"
-    IMAGE_INSTALL:append = " haveged"
-    IMAGE_FEATURES += " \
+    USER_CLASSES ?= "buildstats"
+    EXTRA_IMAGE_FEATURES ?= " \
         ssh-server-dropbear \
         debug-tweaks \
         package-management \
     "
   diskmon: |
-    BB_DISKMON_DIRS = "\
+    BB_DISKMON_DIRS ??= "\
         STOPTASKS,${TMPDIR},1G,100K \
         STOPTASKS,${DL_DIR},1G,100K \
         STOPTASKS,${SSTATE_DIR},1G,100K \

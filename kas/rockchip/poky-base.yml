@@ -5,7 +5,7 @@ header:
     - include/oe.yml
 
 local_conf_header:
-  standard: |
+  scbxy: |
     IMAGE_INSTALL:append = " haveged e2fsprogs-resize2fs kernel-modules \
         pciutils libpcap python3 \
     "
