@@ -4,7 +4,7 @@ header:
     - nxp-base.yml
 
 local_conf_header:
-  default: |
+  ls1046apscb: |
     PREFERRED_VERSION_linux-libc-headers = "5.16"
     IMAGE_INSTALL:append = " cryptodev-linux cryptodev-module \
     "

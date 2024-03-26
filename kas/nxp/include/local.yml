@@ -20,7 +20,6 @@ local_conf_header:
     PACKAGE_CLASSES = "package_deb"
     SDKMACHINE = "x86_64"
     CONF_VERSION = "2"
-    PREFERRED_VERSION_linux-libc-headers = "linux-libc-headers_6.1"
 
 bblayers_conf_header:
   standard: |
