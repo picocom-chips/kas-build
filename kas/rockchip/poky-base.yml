@@ -13,3 +13,14 @@ local_conf_header:
 distro: poky
 target:
   - core-image-minimal
+
+repos:
+  meta-vpp:
+    url: https://github.com/picocom-chips/meta-vpp.git
+    commit: e5651080eeb16dce4553a47920e65bb745610474 # kirkstone
+    path: layers/meta-vpp
+
+  meta-dpdk:
+    url: https://git.yoctoproject.org/meta-dpdk
+    commit: 12cd9701455f17ff86681dba86e5c10f7b0deb7c # kirkstone
+    path: layers/meta-dpdk
