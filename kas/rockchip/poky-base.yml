@@ -6,6 +6,7 @@ header:
 
 local_conf_header:
   scbxy: |
+    PREFERRED_VERSION_dpdk = "20.11.8"
     IMAGE_INSTALL:append = " haveged e2fsprogs-resize2fs kernel-modules \
         pciutils libpcap python3 \
     "
