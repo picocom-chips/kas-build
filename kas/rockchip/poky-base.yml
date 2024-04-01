@@ -18,7 +18,7 @@ target:
 repos:
   meta-vpp:
     url: https://github.com/picocom-chips/meta-vpp.git
-    commit: e5651080eeb16dce4553a47920e65bb745610474 # kirkstone
+    commit: c933559aeda504df930b756c032ee4eb167b14ac # kirkstone
     path: layers/meta-vpp
 
   meta-dpdk:
