@@ -5,9 +5,9 @@ header:
 
 local_conf_header:
   ls1046apscb: |
-    PREFERRED_VERSION_linux-libc-headers = "5.16"
     IMAGE_INSTALL:append = " cryptodev-linux cryptodev-module \
     "
+    DISTRO_FEATURES += " virtualization"
 
 machine: ls1046apscb
 

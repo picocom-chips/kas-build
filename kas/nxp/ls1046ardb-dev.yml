@@ -3,8 +3,4 @@ header:
   includes:
     - nxp-base.yml
 
-local_conf_header:
-  ls1046ardb: |
-    PREFERRED_VERSION_linux-libc-headers = "5.16"
-
 machine: ls1046ardb

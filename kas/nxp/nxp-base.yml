@@ -11,4 +11,23 @@ repos:
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale
     path: layers/meta-freescale
-    branch: kirkstone
+    branch: master
+  meta-qoriq:
+    url: https://github.com/nxp-qoriq/meta-qoriq
+    path: layers/meta-qoriq
+    branch: nanbield
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    path: layers/meta-arm
+    branch: nanbield
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+  meta-virtualization:
+    url: https://git.yoctoproject.org/meta-virtualization
+    path: layers/meta-virtualization
+    branch: nanbield
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro
+    path: layers/meta-freescale-distro
+    branch: master
