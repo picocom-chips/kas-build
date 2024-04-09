@@ -39,3 +39,16 @@ You can modify the board config file of scbxy to switch bwtween the RT and NON-R
 # layers/meta-rockchip/conf/machine/scbxy.conf
 ENABLE_PREEMPT_RT = 'true'
 ```
+### Build SDK for The SCBXY board
+If you want to use the aarch64 cross compiler out of the docker environment, you can build a SDK of scbxy board and use it in any Linux Distributions.
+```
+./kas-container shell kas/rockchip/scbxy-rel.yml -c "bitbake core-image-minimal -c populate_sdk"
+```
+### Build .deb Install Package for 3rd Part Software
+If you want add the software which didn't included in the rootfs by default, You can build the .deb packages for them. And install the .deb file by apt command. Eg.
+#### Build DPDK and VPP
+```
+./kas-container shell kas/rockchip/scbxy-dev.yml -c "bitbake vpp-core"
+```
+*Notes: vpp-core depends on dpdk, so build vpp-core built create install package for dpdk automatically.*
+
