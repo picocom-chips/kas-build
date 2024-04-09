@@ -16,10 +16,10 @@ target:
   - core-image-minimal
 
 repos:
-  meta-vpp:
-    url: https://github.com/picocom-chips/meta-vpp.git
-    commit: c933559aeda504df930b756c032ee4eb167b14ac # kirkstone
-    path: layers/meta-vpp
+  meta-pico:
+    url: https://github.com/picocom-chips/meta-pico.git
+    branch: master
+    path: layers/meta-pico
 
   meta-dpdk:
     url: https://git.yoctoproject.org/meta-dpdk
