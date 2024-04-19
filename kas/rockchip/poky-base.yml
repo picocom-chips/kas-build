@@ -6,7 +6,6 @@ header:
 
 local_conf_header:
   scbxy: |
-    PREFERRED_VERSION_dpdk = "20.11.8"
     IMAGE_INSTALL:append = " haveged e2fsprogs-resize2fs kernel-modules \
         pciutils libpcap python3 \
     "
@@ -20,8 +19,3 @@ repos:
     url: https://github.com/picocom-chips/meta-pico.git
     branch: master
     path: layers/meta-pico
-
-  meta-dpdk:
-    url: https://git.yoctoproject.org/meta-dpdk
-    commit: 12cd9701455f17ff86681dba86e5c10f7b0deb7c # kirkstone
-    path: layers/meta-dpdk
