@@ -5,7 +5,7 @@ header:
     - include/oe.yml
 
 distro: fsl-qoriq
-target: ls-image-main
+target: fsl-image-networking
 
 repos:
   meta-freescale:
