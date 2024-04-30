@@ -4,9 +4,6 @@ header:
     - include/local.yml
     - include/oe.yml
 
-distro: fsl-qoriq
-target: fsl-image-networking
-
 repos:
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale

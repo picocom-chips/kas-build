@@ -7,12 +7,17 @@ local_conf_header:
   ls1046apscb: |
     IMAGE_INSTALL:append = " cryptodev-linux cryptodev-module \
     "
-    DISTRO_FEATURES += " virtualization"
-
-machine: ls1046apscb
+    CORE_IMAGE_EXTRA_INSTALL += "udev-extraconf lsb-release"
+    CORE_IMAGE_EXTRA_INSTALL:append:qoriq = " udev-rules-qoriq"
+    EXTRA_IMAGE_FEATURES:append = " package-management"
+    PACKAGE_FEED_URIS = "http://10.13.52.24:5678"
 
 repos:
   meta-pico:
     url: https://github.com/picocom-chips/meta-pico.git
     branch: master
     path: layers/meta-pico
+
+distro: pico
+machine: ls1046apscb
+target: pico-sdk-ls1046a

@@ -18,7 +18,6 @@ local_conf_header:
         HALT,/tmp,10M,1K"
     PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
     PACKAGE_CLASSES = "package_deb"
-    PACKAGE_FEED_URIS = "http://10.13.52.24:5678"
     SDKMACHINE = "x86_64"
     CONF_VERSION = "2"
 

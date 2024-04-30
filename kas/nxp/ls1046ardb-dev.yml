@@ -4,3 +4,4 @@ header:
     - nxp-base.yml
 
 machine: ls1046ardb
+target: core-image-minimal
