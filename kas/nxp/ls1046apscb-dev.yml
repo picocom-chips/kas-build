@@ -6,6 +6,7 @@ header:
 local_conf_header:
   ls1046apscb: |
     IMAGE_INSTALL:append = " cryptodev-linux cryptodev-module \
+      libgpiod \
     "
     CORE_IMAGE_EXTRA_INSTALL += "udev-extraconf lsb-release"
     CORE_IMAGE_EXTRA_INSTALL:append:qoriq = " udev-rules-qoriq"
