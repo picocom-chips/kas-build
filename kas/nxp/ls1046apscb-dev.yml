@@ -15,7 +15,8 @@ local_conf_header:
 
 repos:
   meta-pico:
-    url: https://github.com/picocom-chips/meta-pico.git
+    # url: https://github.com/picocom-chips/meta-pico.git
+    url: git@github.com:picocom-chips/meta-pico.git
     branch: master
     path: layers/meta-pico
 
