@@ -3,7 +3,7 @@ header:
 
 repos:
   meta-picocom:
-    url: git@github.com:picocom-chips/meta-picocom.git
+    url: https://github.com/picocom-chips/meta-picocom.git
     path: layers/meta-picocom
 
   meta-riscv:

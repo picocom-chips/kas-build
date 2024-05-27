@@ -3,7 +3,7 @@ header:
 
 repos:
   meta-rockchip:
-    url: git@github.com:picocom-chips/meta-rockchip.git
+    url: https://github.com/picocom-chips/meta-rockchip.git
     path: layers/meta-rockchip
 
   poky:
