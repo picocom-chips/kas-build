@@ -6,6 +6,6 @@ header:
 repos:
   meta-rockchip:
     branch: picocom/rk3399-master
-    commit: 6390afe8fa0799f57f6b224b55a73cb82a4bee47
+    commit: ae50ea5c1641f23de5c56429be49f90ffecc1f19
 
 machine: scbxy
