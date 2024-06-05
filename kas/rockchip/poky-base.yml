@@ -9,7 +9,7 @@ local_conf_header:
     IMAGE_INSTALL:append = " haveged e2fsprogs-resize2fs kernel-modules \
         pciutils libpcap tcpdump python3 htop lrzsz gdb vim cjson libatomic \
         bridge-utils net-tools busybox libssl numactl zlib libelf libcrypto \
-        gcc libgcc libnl git picocom-startup-script \
+        gcc libgcc libnl git picocom-startup-script linuxptp \
     "
 
 distro: poky
