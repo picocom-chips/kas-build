@@ -77,8 +77,14 @@ nand write 90100000 200000 $(filesize)
 
 # UBIFS rootfs
 tftp picocom-image-pc805.ubi
-nand erase 800000 1f800000
+nand erase 800000 19400000
 nand write 90100000 800000 $(filesize)
+
+# sw SLOT 
+tftp ubi.img
+nand erase 19c00000 6400000
+nand write 90100000 19c00000 $(filesize)
+
 ```
 ### Flash Images to SPI-NAND in Kernel Console (For UBIFS Rootfs)
 We also can flash the images to spi-nand flash under linux kernel console:
