@@ -5,5 +5,5 @@ header:
 
 repos:
   meta-picocom:
-    commit: 624d531 # PC805-v1.2.2
+    commit: 2899f96bb4cbe850095e87d0189e89ef426d2fe7 # PC805-v1.3.0
     branch: rel/pc805/linux-v5.4.147
