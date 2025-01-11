@@ -2,7 +2,7 @@
 #
 # kas - setup tool for bitbake based projects
 #
-# Copyright (c) Siemens AG, 2018-2022
+# Copyright (c) Siemens AG, 2018-2024
 #
 # Authors:
 #  Jan Kiszka <jan.kiszka@siemens.com>
@@ -27,19 +27,28 @@
 
 set -e
 
+KAS_IMAGE_VERSION_DEFAULT="4.6"
+KAS_CONTAINER_IMAGE_PATH_DEFAULT="ghcr.io/siemens/kas"
+KAS_CONTAINER_IMAGE_NAME_DEFAULT="kas"
+KAS_CONTAINER_SELF_NAME="$(basename "$0")"
+
+# usage [exit_code]
 usage()
 {
+	EXIT_CODE="$1"
 	SELF="${KAS_CONTAINER_SELF_NAME}"
+
 	printf "%b" "Usage: ${SELF} [OPTIONS] { build | shell } [KASOPTIONS] [KASFILE]\n"
-	printf "%b" "       ${SELF} [OPTIONS] { checkout | dump } [KASOPTIONS] [KASFILE]\n"
+	printf "%b" "       ${SELF} [OPTIONS] { checkout | dump | lock } [KASOPTIONS] [KASFILE]\n"
 	printf "%b" "       ${SELF} [OPTIONS] for-all-repos [KASOPTIONS] [KASFILE] COMMAND\n"
-	printf "%b" "       ${SELF} [OPTIONS] { clean | cleansstate | cleanall} [KASFILE]\n"
+	printf "%b" "       ${SELF} [OPTIONS] { clean | cleansstate | cleanall } [KASFILE]\n"
 	printf "%b" "       ${SELF} [OPTIONS] menu [KCONFIG]\n"
 	printf "%b" "\nPositional arguments:\n"
 	printf "%b" "build\t\t\tCheck out repositories and build target.\n"
 	printf "%b" "checkout\t\tCheck out repositories but do not build.\n"
 	printf "%b" "dump\t\t\tCheck out repositories and write flat version\n"
 	printf "%b" "    \t\t\tof config to stdout.\n"
+	printf "%b" "lock\t\t\tCreate and update kas project lockfiles\n"
 	printf "%b" "shell\t\t\tRun a shell in the build environment.\n"
 	printf "%b" "for-all-repos\t\tRun specified command in each repository.\n"
 	printf "%b" "clean\t\t\tClean build artifacts, keep sstate cache and " \
@@ -58,9 +67,7 @@ usage()
 	printf "%b" "--runtime-args\t\tAdditional arguments to pass to the " \
 			"container runtime\n"
 	printf "%b" "\t\t\tfor running the build.\n"
-	printf "%b" "-d\t\t\tPrint debug output (deprecated, use -l debug).\n"
 	printf "%b" "-l, --log-level\t\tSet log level (default=info).\n"
-	printf "%b" "-v\t\t\tSame as -d (deprecated).\n"
 	printf "%b" "--version\t\tprint program version.\n"
 	printf "%b" "--ssh-dir\t\tDirectory containing SSH configurations.\n"
 	printf "%b" "\t\t\tAvoid \$HOME/.ssh unless you fully trust the " \
@@ -75,10 +82,12 @@ usage()
 		    "\t\t\t(default for build command)\n"
 	printf "%b" "--repo-rw\t\tMount current repository writeable\n" \
 		    "\t\t\t(default for shell command)\n"
+	printf "%b" "-h, --help\t\tShow this help message and exit.\n"
 	printf "%b" "\n"
 	printf "%b" "You can force the use of podman over docker using " \
 		    "KAS_CONTAINER_ENGINE=podman.\n"
-	exit 1
+
+	exit "${EXIT_CODE:-1}"
 }
 
 fatal_error(){
@@ -144,10 +153,14 @@ run_clean() {
 	fi
 }
 
-KAS_IMAGE_VERSION_DEFAULT="4.3.1"
-KAS_CONTAINER_IMAGE_PATH_DEFAULT="ghcr.io/siemens/kas"
-KAS_CONTAINER_IMAGE_NAME_DEFAULT="kas"
-KAS_CONTAINER_SELF_NAME="$(basename "$0")"
+KAS_GIT_OVERLAY_FILE=""
+kas_container_cleanup()
+{
+	if [ -f "${KAS_GIT_OVERLAY_FILE}" ]; then
+		trace rm -f "${KAS_GIT_OVERLAY_FILE}"
+	fi
+}
+trap kas_container_cleanup EXIT INT TERM
 
 set_container_image_var() {
 	KAS_IMAGE_VERSION="${KAS_IMAGE_VERSION:-${KAS_IMAGE_VERSION_DEFAULT}}"
@@ -269,11 +282,6 @@ while [ $# -gt 0 ]; do
 		KAS_REPO_MOUNT_OPT="rw"
 		shift 1
 		;;
-	-v | -d)
-		KAS_VERBOSE=1
-		KAS_OPTIONS_DIRECT="${KAS_OPTIONS_DIRECT} -d"
-		shift 1
-		;;
 	-l | --log-level)
 		if [ "$2" = "debug" ]; then
 			KAS_VERBOSE=1
@@ -285,6 +293,9 @@ while [ $# -gt 0 ]; do
 		echo "${KAS_CONTAINER_SELF_NAME} $KAS_IMAGE_VERSION_DEFAULT"
 		exit 0
 		;;
+	-h | --help)
+		usage 0
+		;;
 	--*)
 		usage
 		;;
@@ -293,7 +304,7 @@ while [ $# -gt 0 ]; do
 		shift 1
 		break
 		;;
-	shell)
+	shell|lock)
 		KAS_REPO_MOUNT_OPT_DEFAULT="rw"
 		KAS_CMD=$1
 		shift 1
@@ -330,14 +341,21 @@ while [ $# -gt 0 ] && [ $KAS_EXTRA_BITBAKE_ARGS -eq 0 ]; do
 	case "$1" in
 	--skip|--target|--task)
 		KAS_OPTIONS="${KAS_OPTIONS} $1 $2"
-		shift 2
+		shift 1
+		shift 1 || KAS_OPTIONS="--help"
 		;;
 	-c|--cmd|--command)
 		KAS_BITBAKE_C_OPTION_ARGS="$2"
-		shift 2
+		shift 1
+		shift 1 || KAS_OPTIONS="--help"
 		;;
 	-E|--preserve-env)
 		fatal_error "$1 is not supported with ${KAS_CONTAINER_SELF_NAME}"
+		;;
+	--provenance)
+		KAS_OPTIONS="${KAS_OPTIONS} $1 $2"
+		shift 1
+		shift 1 || KAS_OPTIONS="--help"
 		;;
 	--)
 		KAS_EXTRA_BITBAKE_ARGS=$#
@@ -347,10 +365,21 @@ while [ $# -gt 0 ] && [ $KAS_EXTRA_BITBAKE_ARGS -eq 0 ]; do
 		shift 1
 		;;
 	*)
+		ARG="$1"
+		shift 1
+		if [ "$KAS_CMD" = "for-all-repos" ]; then
+			if [ $# -gt 0 ]; then
+				KAS_REPO_CMD="$1"
+				shift 1
+			else
+				KAS_REPO_CMD="$ARG"
+				unset ARG
+			fi
+		fi
 		KAS_FILES=
 		# SC2086: Double quote to prevent globbing and word splitting.
 		# shellcheck disable=2086
-		for FILE in $(IFS=':'; echo $1); do
+		for FILE in $(IFS=':'; echo $ARG); do
 			if ! KAS_REAL_FILE="$(realpath -qe "$FILE")"; then
 				fatal_error "configuration file '${FILE}' not found"
 			fi
@@ -361,11 +390,6 @@ while [ $# -gt 0 ] && [ $KAS_EXTRA_BITBAKE_ARGS -eq 0 ]; do
 				KAS_FILES="${KAS_FILES}:${KAS_REAL_FILE}"
 			fi
 		done
-		shift 1
-		if [ "$KAS_CMD" = "for-all-repos" ]; then
-			KAS_REPO_CMD="$1"
-			shift 1
-		fi
 		;;
 	esac
 done
@@ -401,7 +425,7 @@ if [ "${KAS_CMD}" = "menu" ]; then
 		set -- "$@" -e _KAS_REPO_DIR_HOST="$(readlink -fv "${KAS_REPO_DIR}")"
 	fi
 
-	BUILD_SYSTEM=$(tr '\n' '\f' 2>/dev/null < ${KAS_FIRST_FILE} | \
+	BUILD_SYSTEM=$(tr '\n' '\f' 2>/dev/null < "${KAS_FIRST_FILE}" | \
 		sed -e 's/\(.*\fconfig KAS_BUILD_SYSTEM\f\(.*\)\|.*\)/\2/' \
 		    -e 's/\f\([[:alpha:]].*\|$\)//' \
 		    -e 's/.*default \"\(.*\)\".*/\1/')
@@ -439,12 +463,28 @@ if [ "$(id -u)" -eq 0 ] && [ "${KAS_ALLOW_ROOT}" != "yes" ] ; then
 	            "KAS_ALLOW_ROOT=yes to override."
 fi
 
-set -- "$@" -v "${KAS_REPO_DIR}":/repo:${KAS_REPO_MOUNT_OPT} \
+set -- "$@" -v "${KAS_REPO_DIR}:/repo:${KAS_REPO_MOUNT_OPT}" \
 	-v "${KAS_WORK_DIR}":/work:rw -e KAS_WORK_DIR=/work \
 	-v "${KAS_BUILD_DIR}":/build:rw \
 	--workdir=/repo \
 	-e KAS_BUILD_DIR=/build \
 	-e USER_ID="$(id -u)" -e GROUP_ID="$(id -g)" --rm --init
+
+if git_com_dir=$(git -C "${KAS_REPO_DIR}" rev-parse --git-common-dir 2>/dev/null) \
+	&& [ "$git_com_dir" != "$(git -C "${KAS_REPO_DIR}" rev-parse --git-dir)" ]; then
+	# If (it's a git repo) and the common dir isn't the git-dir, it is shared worktree and
+	# we have to mount the common dir in the container to make git work
+	# The mount path inside the container is different from the host path. Hence, we over-mount
+	# the .git file to point to the correct path.
+	KAS_GIT_OVERLAY_FILE=$(mktemp)
+	sed "s|gitdir: ${git_com_dir}/|gitdir: /repo-common/|" "${KAS_REPO_DIR}/.git" > "${KAS_GIT_OVERLAY_FILE}"
+	set -- "$@" -v "${git_com_dir}:/repo-common:${KAS_REPO_MOUNT_OPT}" \
+		-v "${KAS_GIT_OVERLAY_FILE}:/repo/.git:ro"
+	# if the workdir is the same as the repo dir, it is the same shared worktree
+	if [ "${KAS_WORK_DIR}" = "${KAS_REPO_DIR}" ]; then
+		set -- "$@" -v "${KAS_GIT_OVERLAY_FILE}:/work/.git:ro"
+	fi
+fi
 
 if [ -n "${KAS_SSH_DIR}" ] ; then
 	if [ ! -d "${KAS_SSH_DIR}" ]; then
@@ -505,6 +545,11 @@ if [ -f "${GITCONFIG_FILE}" ]; then
 		-e GITCONFIG_FILE="/var/kas/userdata/.gitconfig"
 fi
 
+if [ -f "${REGISTRY_AUTH_FILE}" ]; then
+	set -- "$@" -v "$(readlink -fv "${REGISTRY_AUTH_FILE}")":/var/kas/userdata/.docker/config.json:ro \
+		-e REGISTRY_AUTH_FILE="/var/kas/userdata/.docker/config.json"
+fi
+
 if [ -t 1 ]; then
 	set -- "$@" -t -i
 fi
@@ -539,7 +584,7 @@ if [ -n "${KAS_REPO_REF_DIR}" ]; then
 		-e KAS_REPO_REF_DIR=/repo-ref
 fi
 
-for var in TERM KAS_DISTRO KAS_MACHINE KAS_TARGET KAS_TASK \
+for var in TERM KAS_DISTRO KAS_MACHINE KAS_TARGET KAS_TASK KAS_CLONE_DEPTH \
            KAS_PREMIRRORS DISTRO_APT_PREMIRRORS BB_NUMBER_THREADS PARALLEL_MAKE \
            GIT_CREDENTIAL_USEHTTPPATH; do
 	if [ -n "$(eval echo \$${var})" ]; then
@@ -587,4 +632,5 @@ while [ $KAS_EXTRA_BITBAKE_ARGS -gt 0 ]; do
 	KAS_EXTRA_BITBAKE_ARGS=$((KAS_EXTRA_BITBAKE_ARGS - 1))
 done
 
+# shellcheck disable=SC2086
 trace ${KAS_CONTAINER_COMMAND} run "$@"
