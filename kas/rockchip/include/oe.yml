@@ -1,14 +1,15 @@
 header:
-  version: 8
+  version: 9
 
 repos:
   meta-rockchip:
-    url: https://github.com/picocom-chips/meta-rockchip.git
+    url: https://git.yoctoproject.org/meta-rockchip
+    branch: scarthgap
     path: layers/meta-rockchip
 
   poky:
-    url: https://git.yoctoproject.org/git/poky
-    commit: a818202d85a2fba1be8f43e00391e44a2dbada7e # kirkstone
+    url: https://git.yoctoproject.org/poky
+    branch: scarthgap
     path: layers/poky
     layers:
       meta:
@@ -17,7 +18,7 @@ repos:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    commit: 730e44900a0a86265bad93a16b5a5ff344a07266 # kirkstone
+    branch: scarthgap
     path: layers/meta-openembedded
     layers:
       meta-oe:

@@ -17,6 +17,14 @@ target:
   - core-image-minimal
 
 repos:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    branch: scarthgap
+    path: layers/meta-arm
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+
   meta-pico:
     url: https://github.com/picocom-chips/meta-pico.git
     branch: master

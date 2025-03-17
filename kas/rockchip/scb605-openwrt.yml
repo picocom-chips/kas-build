@@ -1,0 +1,19 @@
+header:
+  version: 8
+  includes:
+    - poky-base.yml
+
+machine: scb605
+
+repos:
+  meta-openwrt:
+    url: https://github.com/kraj/meta-openwrt.git
+    branch: master
+    path: layers/meta-openwrt
+
+target:
+  - openwrt-image-minimal
+
+local_conf_header:
+  default: |
+    INHERIT += " openwrt-distro-defaults "
