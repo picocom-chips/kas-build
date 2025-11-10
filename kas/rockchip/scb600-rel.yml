@@ -3,6 +3,14 @@ header:
   includes:
     - poky-base.yml
 
+local_conf_header:
+  scb600: |
+    IMAGE_INSTALL:append = " haveged e2fsprogs-resize2fs kernel-modules \
+        pciutils libpcap tcpdump python3 htop lrzsz gdb vim cjson libatomic \
+        bridge-utils net-tools busybox libssl numactl zlib libelf libcrypto \
+        gcc libgcc libnl git picocom-startup-script linuxptp kernel-selftest \
+    "
+
 repos:
   meta-rockchip:
     branch: picocom/rk3399-master

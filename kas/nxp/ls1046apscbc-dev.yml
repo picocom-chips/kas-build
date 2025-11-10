@@ -4,14 +4,14 @@ header:
     - nxp-base.yml
 
 local_conf_header:
-  ls1046apscb: |
+  ls1046apscbc: |
     IMAGE_INSTALL:append = " cryptodev-linux cryptodev-module \
-      libgpiod libgpiod-tools \
     "
     CORE_IMAGE_EXTRA_INSTALL += "udev-extraconf lsb-release"
     CORE_IMAGE_EXTRA_INSTALL:append:qoriq = " udev-rules-qoriq"
     EXTRA_IMAGE_FEATURES:append = " package-management"
-    PACKAGE_FEED_URIS = "http://101.69.253.219:8000/ls1046apscb/deb"
+    PACKAGE_FEED_URIS = "http://101.69.253.219:8000/ls1046apscbc/deb"
+    PACKAGE_CLASSES = "package_deb"
 
   rootlogin: |
     EXTRA_IMAGE_FEATURES:append = " allow-empty-password empty-root-password allow-root-login"
@@ -23,5 +23,5 @@ repos:
     path: layers/meta-pico
 
 distro: fsl-qoriq
-machine: ls1046apscb
+machine: ls1046apscbc
 target: pico-sdk-ls1046a

@@ -1,0 +1,71 @@
+name: Matrix Yocto Builder
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'kas/**'           # Trigger on config changes
+      - 'meta-*/**'        # Trigger on layer updates
+      - 'recipes-*/**'     # Trigger on recipe modifications
+      - '!.github/**'      # Exclude workflow changes
+
+env:
+  KAS_BUILD_DIR: build
+  KAS_LAYER_DIR: layers
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - config: kas/rockchip/scb605-openwrt.yml
+            target: scb605-openwrt
+          - config: kas/nxp/ls1046apscb-dev.yml
+            target: ls1046apscb-dev
+          # - config: kas/picocom/pc805-dev.yml
+          #   target: pc805-dev
+      fail-fast: false
+
+    steps:
+    - name: Install System Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential chrpath cpio gawk
+
+    - name: Checkout Sources
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+
+    - name: Initialize Build Environment
+      run: |
+        mkdir -p ${{ env.KAS_BUILD_DIR }}
+
+    - name: Build Image
+      run: |
+        ./kas-container shell ${{ matrix.config }} -c "bitbake -n virtual/kernel"
+
+    - name: Layer State Cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ${{ env.KAS_BUILD_DIR }}/downloads
+          ${{ env.KAS_BUILD_DIR }}/sstate-cache
+          ${{ env.KAS_LAYER_DIR }}
+        key: ${{ runner.os }}-${{ matrix.config }}-${{ hashFiles(matrix.config) }}
+
+    - name: Store Output Images
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.target }}
+        path: ${{ env.KAS_BUILD_DIR }}/tmp/deploy/images/**/*
+        retention-days: 3
+        include-hidden-files: true
+
+    - name: Build Verification
+      run: |
+        ./kas-container dump ${{ matrix.config }}
+        ./kas-container shell ${{ matrix.config }} -c "bitbake-layers show-layers"

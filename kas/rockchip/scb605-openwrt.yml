@@ -7,8 +7,8 @@ machine: scb605
 
 repos:
   meta-openwrt:
-    url: https://github.com/kraj/meta-openwrt.git
-    branch: master
+    url: https://github.com/attina/meta-openwrt.git
+    branch: openwrt-22.03
     path: layers/meta-openwrt
 
 target:
@@ -17,3 +17,8 @@ target:
 local_conf_header:
   default: |
     INHERIT += " openwrt-distro-defaults "
+    PACKAGE_CLASSES = "package_ipk"
+    IMAGE_FEATURES += "package-management"
+  scb600: |
+    IMAGE_INSTALL:append = " lrzsz linux-firmware-rtl-nic \
+    luci uhttpd"

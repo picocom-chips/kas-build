@@ -15,7 +15,6 @@ local_conf_header:
     USER_CLASSES ?= "buildstats"
     EXTRA_IMAGE_FEATURES ?= " \
         ssh-server-dropbear \
-        debug-tweaks \
         package-management \
     "
   diskmon: |

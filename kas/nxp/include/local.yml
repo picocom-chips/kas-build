@@ -4,7 +4,7 @@ header:
 local_conf_header:
   default: |
     # -- Default local.conf from meta-poky/conf/local.conf.sample -- #
-    EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+    EXTRA_IMAGE_FEATURES ?= "allow-empty-password"
     USER_CLASSES ?= "buildstats"
     PATCHRESOLVE = "noop"
     BB_DISKMON_DIRS ??= "\
@@ -20,6 +20,7 @@ local_conf_header:
     PACKAGE_CLASSES = "package_deb"
     SDKMACHINE = "x86_64"
     CONF_VERSION = "2"
+    ERROR_QA:remove = "patch-status"
 
 bblayers_conf_header:
   standard: |

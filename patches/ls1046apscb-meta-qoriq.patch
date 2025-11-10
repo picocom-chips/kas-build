@@ -1,0 +1,98 @@
+diff --git a/meta-qoriq-bsp/conf/layer.conf b/meta-qoriq-bsp/conf/layer.conf
+index b5e280e..3a27b34 100644
+--- a/meta-qoriq-bsp/conf/layer.conf
++++ b/meta-qoriq-bsp/conf/layer.conf
+@@ -8,7 +8,7 @@ BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
+ BBFILE_COLLECTIONS += "qoriq-bsp-release"
+ BBFILE_PATTERN_qoriq-bsp-release := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_qoriq-bsp-release = "8"
+-LAYERSERIES_COMPAT_qoriq-bsp-release = "honister kirkstone langdale mickledore master nanbield scarthgap styhead walnascar"
++LAYERSERIES_COMPAT_qoriq-bsp-release = "honister kirkstone langdale mickledore master nanbield scarthgap styhead walnascar whinlatter"
+ 
+ HOSTTOOLS_NONFATAL:append = " whoami sha384sum xxd realpath"
+ 
+diff --git a/meta-qoriq-bsp/recipes-bsp/secure-boot/distro-bootscr.bb b/meta-qoriq-bsp/recipes-bsp/secure-boot/distro-bootscr.bb
+index be3a598..c0aee8e 100644
+--- a/meta-qoriq-bsp/recipes-bsp/secure-boot/distro-bootscr.bb
++++ b/meta-qoriq-bsp/recipes-bsp/secure-boot/distro-bootscr.bb
+@@ -3,7 +3,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+ 
+ python __anonymous () {
+-    board="ls1012afrwy ls1012ardb ls1021atwr ls1028ardb ls1043ardb ls1046afrwy ls1046ardb ls1088ardb ls1088ardb-pb ls2088ardb lx2160ardb-rev2 lx2162aqds"
++    board="ls1012afrwy ls1012ardb ls1021atwr ls1028ardb ls1043ardb ls1046afrwy \
++        ls1046apscb ls1046apscbc ls1046apxcp \
++        ls1046ardb ls1088ardb ls1088ardb-pb ls2088ardb lx2160ardb-rev2 lx2162aqds"
+     m = d.getVar("MACHINE")
+     if m not in board:
+         raise bb.parse.SkipRecipe("This platform not exit secure-boot manifest")
+diff --git a/meta-qoriq-bsp/recipes-bsp/secure-boot/generate-boottgz.bb b/meta-qoriq-bsp/recipes-bsp/secure-boot/generate-boottgz.bb
+index a9a94a5..006b24f 100644
+--- a/meta-qoriq-bsp/recipes-bsp/secure-boot/generate-boottgz.bb
++++ b/meta-qoriq-bsp/recipes-bsp/secure-boot/generate-boottgz.bb
+@@ -4,7 +4,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+ 
+ python __anonymous () {
+-    board="ls1012afrwy ls1012ardb ls1021atwr ls1028ardb ls1043ardb ls1046afrwy ls1046ardb ls1088ardb ls1088ardb-pb ls2088ardb lx2160ardb-rev2 lx2162aqds"
++    board="ls1012afrwy ls1012ardb ls1021atwr ls1028ardb ls1043ardb ls1046afrwy \
++        ls1046apscb ls1046apscbc ls1046apxcp \
++        ls1046ardb ls1088ardb ls1088ardb-pb ls2088ardb lx2160ardb-rev2 lx2162aqds"
+     m = d.getVar("MACHINE")
+     if m not in board:
+         raise bb.parse.SkipRecipe("This platform not exit secure-boot manifest")
+diff --git a/meta-qoriq-bsp/recipes-bsp/secure-boot/secure-boot-qoriq.bb b/meta-qoriq-bsp/recipes-bsp/secure-boot/secure-boot-qoriq.bb
+index b86efe2..7fb40b5 100644
+--- a/meta-qoriq-bsp/recipes-bsp/secure-boot/secure-boot-qoriq.bb
++++ b/meta-qoriq-bsp/recipes-bsp/secure-boot/secure-boot-qoriq.bb
+@@ -4,7 +4,9 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+ 
+ python __anonymous () {
+-    board="ls1012afrwy ls1012ardb ls1021atwr ls1028ardb ls1043ardb ls1046afrwy ls1046ardb ls1088ardb ls1088ardb-pb ls2088ardb lx2160ardb-rev2 lx2162aqds"
++    board="ls1012afrwy ls1012ardb ls1021atwr ls1028ardb ls1043ardb ls1046afrwy \
++        ls1046apscb ls1046apscbc ls1046apxcp \
++        ls1046ardb ls1088ardb ls1088ardb-pb ls2088ardb lx2160ardb-rev2 lx2162aqds"
+     m = d.getVar("MACHINE")
+     if m not in board:
+         raise bb.parse.SkipRecipe("This platform not exit secure-boot manifest")
+diff --git a/meta-qoriq-sdk/recipes-fsl/images/fsl-image-kernelitb/kernel-arm64.its b/meta-qoriq-sdk/recipes-fsl/images/fsl-image-kernelitb/kernel-arm64.its
+index 1398790..91696b0 100644
+--- a/meta-qoriq-sdk/recipes-fsl/images/fsl-image-kernelitb/kernel-arm64.its
++++ b/meta-qoriq-sdk/recipes-fsl/images/fsl-image-kernelitb/kernel-arm64.its
+@@ -105,13 +105,34 @@
+ 			fdt = "fdt-dtb";
+ 		};
+ 
+-                ls1046afrwy {
++		ls1046afrwy {
+ 			description = "config for ls1046afrwy";
+ 			kernel = "kernel";
+ 			ramdisk = "initrd";
+ 			fdt = "fdt-dtb";
+ 		};
+ 
++		ls1046apscb {
++			description = "config for ls1046apscb";
++			kernel = "kernel";
++			ramdisk = "initrd";
++			fdt = "fdt-dtb";
++		};
++
++		ls1046apscbc {
++			description = "config for ls1046apscbc";
++			kernel = "kernel";
++			ramdisk = "initrd";
++			fdt = "fdt-dtb";
++		};
++
++		ls1046apxcp {
++			description = "config for ls1046apxcp";
++			kernel = "kernel";
++			ramdisk = "initrd";
++			fdt = "fdt-dtb";
++		};
++
+ 		ls1012ardb {
+ 			description = "config for ls1012ardb";
+ 			kernel = "kernel";

@@ -4,14 +4,6 @@ header:
     - include/local.yml
     - include/oe.yml
 
-local_conf_header:
-  scbxy: |
-    IMAGE_INSTALL:append = " haveged e2fsprogs-resize2fs kernel-modules \
-        pciutils libpcap tcpdump python3 htop lrzsz gdb vim cjson libatomic \
-        bridge-utils net-tools busybox libssl numactl zlib libelf libcrypto \
-        gcc libgcc libnl git picocom-startup-script linuxptp kernel-selftest \
-    "
-
 distro: poky
 target:
   - core-image-minimal
@@ -19,13 +11,13 @@ target:
 repos:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    branch: scarthgap
+    branch: walnascar
     path: layers/meta-arm
     layers:
       meta-arm:
       meta-arm-toolchain:
 
   meta-pico:
-    url: https://github.com/picocom-chips/meta-pico.git
+    url: https://github.com/attina/meta-pico.git
     branch: master
     path: layers/meta-pico

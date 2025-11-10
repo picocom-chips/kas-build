@@ -4,12 +4,12 @@ header:
 repos:
   meta-rockchip:
     url: https://git.yoctoproject.org/meta-rockchip
-    branch: scarthgap
+    branch: walnascar
     path: layers/meta-rockchip
 
   poky:
     url: https://git.yoctoproject.org/poky
-    branch: scarthgap
+    branch: walnascar
     path: layers/poky
     layers:
       meta:
@@ -18,7 +18,7 @@ repos:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    branch: scarthgap
+    branch: walnascar
     path: layers/meta-openembedded
     layers:
       meta-oe:

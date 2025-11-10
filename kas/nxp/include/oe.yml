@@ -5,7 +5,7 @@ repos:
   poky:
     url: https://git.yoctoproject.org/poky
     path: layers/poky
-    branch: nanbield
+    branch: walnascar
     layers:
       meta:
       meta-poky:
@@ -14,9 +14,22 @@ repos:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     path: layers/meta-openembedded
-    branch: nanbield
+    branch: walnascar
     layers:
       meta-oe:
       meta-networking:
       meta-python:
       meta-filesystems:
+
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    path: layers/meta-arm
+    branch: walnascar
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+
+  meta-virtualization:
+    url: https://git.yoctoproject.org/meta-virtualization
+    path: layers/meta-virtualization
+    branch: walnascar

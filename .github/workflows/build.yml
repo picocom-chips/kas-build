@@ -1,0 +1,66 @@
+name: Manual Yocto Build
+on:
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'Config file path (e.g., kas/rockchip/scb600-openwrt.yml)'
+        required: true
+        default: 'kas/rockchip/scb600-openwrt.yml'
+      recipe:
+        description: 'Recipe to build (e.g., virtual/kernel)'
+        required: true
+        default: 'virtual/kernel'
+      clean_build:
+        description: 'Perform full clean rebuild'
+        type: boolean
+        default: false
+
+env:
+  KAS_BUILD_DIR: build
+  KAS_LAYER_DIR: layers
+
+jobs:
+  yocto-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install System Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential chrpath cpio gawk
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+
+    - name: Clean Build Preparation
+      if: ${{ inputs.clean_build }}
+      run: |
+        rm -rf ${{ env.KAS_BUILD_DIR }}/*
+
+    - name: Initialize Build Environment
+      run: |
+        mkdir -p ${{ env.KAS_BUILD_DIR }}
+
+    - name: Execute Yocto Build
+      run: |
+        ./kas-container shell ${{ inputs.config }} -c "bitbake -n ${{ inputs.recipe }}"
+
+    - name: Cache Management
+      uses: actions/cache@v3
+      with:
+        path: |
+          ${{ env.KAS_BUILD_DIR }}/downloads
+          ${{ env.KAS_BUILD_DIR }}/sstate-cache
+          ${{ env.KAS_LAYER_DIR }}
+        key: ${{ runner.os }}-${{ hashFiles('external_layer.sha') }}-${{ hashFiles(inputs.config) }}
+
+    - name: Package Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: yocto-images
+        path: ${{ env.KAS_BUILD_DIR }}/tmp/deploy/images/**/*
+        retention-days: 3
+        include-hidden-files: true
