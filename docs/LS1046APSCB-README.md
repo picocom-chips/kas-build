@@ -13,6 +13,8 @@ kas build kas/nxp/ls1046apscb-dev.yml
 ```
 ### Build Command for ls1046apscbc
 ```
+cd layers/meta-qoriq
+git apply ../../patches/ls1046apscb-meta-qoriq.patch
 kas shell kas/nxp/ls1046apscbc-dev.yml -c "bitbake secure-boot-qoriq"
 kas shell kas/nxp/ls1046apscbc-dev.yml -c "bitbake qoriq-composite-firmware"
 kas shell kas/nxp/ls1046apscbc-dev.yml -c "bitbake generate-boottgz"
